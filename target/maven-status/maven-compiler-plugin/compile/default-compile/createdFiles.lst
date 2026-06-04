@@ -1,0 +1,7 @@
+com\bidding\system\frontend\model\UserDTO.class
+com\bidding\system\frontend\bidding_frontend\model\LanceDTO.class
+com\bidding\system\frontend\model\EditalDTO.class
+com\bidding\system\frontend\controller\AuthController.class
+com\bidding\system\frontend\service\AuthRestClientService.class
+com\bidding\system\frontend\BiddingFrontendApplication.class
+com\bidding\system\frontend\model\UserRequestDTO.class
