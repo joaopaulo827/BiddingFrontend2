@@ -48,15 +48,25 @@ public class AuthController {
         return "login";
     }
     
-    @PostMapping("/logar")
-    public String logar(
-            @ModelAttribute UserRequestDTO credenciais,
-            HttpSession session){
+@PostMapping("/logar")
+public String logar(
+        @ModelAttribute UserRequestDTO credenciais,
+        HttpSession session,
+        RedirectAttributes redirectAttributes) {
+
+    try {
         String token = authservice.logar(credenciais);
-        System.out.println("token: "+token);
+
         session.setAttribute("token", token);
+
         return "redirect:/";
+
+    } catch (Exception e) {
+
+        redirectAttributes.addFlashAttribute("erroLogin", "Usuário ou senha inválidos.");
+        return "redirect:/login";
     }
+}
     
     @GetMapping("/registrar")
     public String registrar(
@@ -101,7 +111,7 @@ public class AuthController {
     
 @GetMapping("/logout")
 public String logout(HttpSession session){
-    session.invalidate();
+     session.setAttribute("token", "");
     return "redirect:/login";
 }
 }
