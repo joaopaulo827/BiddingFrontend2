@@ -3,28 +3,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.bidding.system.frontend.controller;
-
-import com.bidding.system.frontend.model.EditalDTO;
-import com.bidding.system.frontend.service.AuthRestClientService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 /**
  *
  * @author joaop
  */
 @Controller
-public class EditalPageController {
-    @Autowired
-    public AuthRestClientService authservice;
-    @GetMapping("/editais")
-    public String editar(
-            Model model
-    ){
-        EditalDTO newEdital= new EditalDTO();
-        model.addAttribute("edital", newEdital);
+@RequestMapping("/editais")
+public class EditalPageController { 
+     @GetMapping("/list")
+    public String listar(
+            HttpSession session
+    ) {
+        Object token = session.getAttribute("token");
+        
+        if(token == null) {
+           return "redirect:/login";
+        }
         return "editais";
-    }       
+    }
+    @GetMapping("/lances")
+    public String adicionar(
+             Model model
+    ){     
+      return "lances";  
+    }
 }

@@ -70,28 +70,12 @@
             .links{
                 margin-top: 15px;
             }
-            .logout {
-            position: absolute;
-            top: -17px;
-            left: 10px;
-            }
-            a{
-                text-decoration: none;
-            }
 
         </style>
     </head>
 
     <body>
-
         <div class="container">
-
-            <div class="logout">
-                <a th:href="@{/logout}">
-                <button type="button">Sair</button>
-                </a>
-            </div>
-
             <h1>LOGIN</h1>
 
             <form th:action="@{/logar}" 
@@ -117,6 +101,5 @@
             </div>
 
         </div>
-
     </body>
 </html>
