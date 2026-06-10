@@ -26,10 +26,4 @@ public class EditalPageController {
         }
         return "editais";
     }
-    @GetMapping("/lances")
-    public String adicionar(
-             Model model
-    ){     
-      return "lances";  
-    }
 }

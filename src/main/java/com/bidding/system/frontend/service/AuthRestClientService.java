@@ -58,4 +58,12 @@ public class AuthRestClientService {
 
         return Arrays.asList(editais);
     }
+    public List<EditalDTO> adicionarEdital(){
+        EditalDTO[] adicionar=restClient.put()
+                .uri("/{id}/lances")
+                .body(this)
+                .retrieve()
+                .body(EditalDTO[].class);
+        return Arrays.asList(adicionar);
+    }
 }
