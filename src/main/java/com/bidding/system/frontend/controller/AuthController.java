@@ -32,9 +32,9 @@ public class AuthController {
     ){
         Object token = session.getAttribute("token");
         
-        if(token == null) {
-            return "redirect:/login";
-        }
+        if (token == null || token.toString().isBlank()) {
+    return "redirect:/login";
+}
         
         return "index";
     }

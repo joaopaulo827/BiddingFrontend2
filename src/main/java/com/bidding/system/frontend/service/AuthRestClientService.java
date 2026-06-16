@@ -1,5 +1,6 @@
 package com.bidding.system.frontend.service;
 
+import com.bidding.system.frontend.bidding_frontend.model.LanceDTO;
 import com.bidding.system.frontend.model.EditalDTO;
 import com.bidding.system.frontend.model.UserDTO;
 import com.bidding.system.frontend.model.UserRequestDTO;
@@ -16,16 +17,15 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AuthRestClientService {
 
+
     private final RestClient restClient;
 
-    /**
-     * 
-     */
     public AuthRestClientService() {
         this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:9000/api/auth")
+                .baseUrl("http://localhost:9000/api/autenticar")
                 .build();
     }
+
     public String logar(UserRequestDTO user) {
         return restClient.post()
                 .uri("/logar")
@@ -33,22 +33,24 @@ public class AuthRestClientService {
                 .retrieve()
                 .body(String.class);
     }
-    
-    public void registrar(UserDTO user ) {
-        if(!user.getSenha().equals(user.getConfirmarSenha())) {
+
+    public void registrar(UserDTO user) {
+
+        if (!user.getSenha().equals(user.getConfirmarSenha())) {
             throw new ResponseStatusException(
-                    HttpStatusCode.valueOf(400), 
+                    HttpStatusCode.valueOf(400),
                     "Senha e Confirmar Senha Diferentes");
         }
+
         user.setRole("FORNECEDOR");
-        String retorno = 
-            restClient
-                .post()
-                .uri("/autenticar/registrar")
+
+        restClient.post()
+                .uri("/registrar")
                 .body(user)
                 .retrieve()
                 .body(String.class);
     }
+
     public List<EditalDTO> listarEditais(String token) {
         EditalDTO[] editais = restClient.get()
                 .uri("/editais")
@@ -58,6 +60,23 @@ public class AuthRestClientService {
 
         return Arrays.asList(editais);
     }
+    public void criarEdital(EditalDTO edital, String token) {
+    restClient.post()
+            .uri("/editais/criar")
+            .header("Authorization", "Bearer " + token)
+            .body(edital)
+            .retrieve()
+            .toBodilessEntity();
+}
+
+public void criarLance(Long id, LanceDTO lance, String token) {
+    restClient.post()
+            .uri("/editais/" + id + "/lances")
+            .header("Authorization", "Bearer " + token)
+            .body(lance)
+            .retrieve()
+            .toBodilessEntity();
+}
     public List<EditalDTO> adicionarEdital(){
         EditalDTO[] adicionar=restClient.put()
                 .uri("/{id}/lances")
@@ -66,4 +85,5 @@ public class AuthRestClientService {
                 .body(EditalDTO[].class);
         return Arrays.asList(adicionar);
     }
+    
 }

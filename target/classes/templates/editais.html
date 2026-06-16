@@ -48,18 +48,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <th>Data de fechamento</th>
                     <th>Status</th>
                 </tr>
-                <tr th:each="f : ${edital}">
-                    <td th:text="${f.titulo}"></td>
-                    <td th:text="${f.descricao}"></td>
-                    <td th:text="${f.dataFechamento}"></td>
-                    <td th:text="${f.status}"></td>
-                </tr>
-            </table>
-            <div class="links">
-                <a href="/lances">
-                    <button type="button">
-                        Adicionar informaçõs
-                    </button>        
-            </div>
+               <tr th:if="${edital != null}" th:each="f : ${edital}">
+    <td th:text="${f.titulo}"></td>
+    <td th:text="${f.descricao}"></td>
+    <td th:text="${f.dataFechamento}"></td>
+    <td th:text="${f.status}"></td>
+    <td>
+        <a th:href="@{'/editais/lances/' + ${f.id}}">
+            Dar Lance
+        </a>
+    </td>
+</tr>
+    <a th:href="@{/editais/novo}">
+    Criar novo edital
+</a>
     </body>
 </html>
