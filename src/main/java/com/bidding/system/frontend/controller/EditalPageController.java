@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.bidding.system.frontend.controller;
-import com.bidding.system.frontend.bidding_frontend.model.LanceDTO;
+import com.bidding.system.frontend.model.LanceDTO;
 import com.bidding.system.frontend.model.EditalDTO;
 import com.bidding.system.frontend.service.AuthRestClientService;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +53,12 @@ public class EditalPageController {
         return "novo-edital";
     }
 
-    @PostMapping("/criar")
-    public String criar(EditalDTO edital, HttpSession session) {
+@PostMapping("/criar")
+public String criar(@ModelAttribute EditalDTO edital, HttpSession session) {
+         System.out.println("Titulo: " + edital.getTitulo());
+    System.out.println("Descricao: " + edital.getDescricao());
+    System.out.println("Data: " + edital.getDataFechamento());
+    System.out.println("Status: " + edital.getStatus());
 
         String token = (String) session.getAttribute("token");
 
@@ -70,4 +75,19 @@ public class EditalPageController {
 
         return "lance";
     }
+    @PostMapping("/{id}/lances")
+public String criarLance(@PathVariable Long id,
+                         LanceDTO lance,
+                         HttpSession session) {
+
+    String token = (String) session.getAttribute("token");
+
+    if (token == null || token.isBlank()) {
+        return "redirect:/login";
+    }
+
+    service.criarLance(id, lance, token);
+
+    return "redirect:/editais/list";
+}
 }

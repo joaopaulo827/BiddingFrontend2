@@ -1,6 +1,6 @@
 package com.bidding.system.frontend.service;
 
-import com.bidding.system.frontend.bidding_frontend.model.LanceDTO;
+import com.bidding.system.frontend.model.LanceDTO;
 import com.bidding.system.frontend.model.EditalDTO;
 import com.bidding.system.frontend.model.UserDTO;
 import com.bidding.system.frontend.model.UserRequestDTO;
@@ -22,13 +22,13 @@ public class AuthRestClientService {
 
     public AuthRestClientService() {
         this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:9000/api/autenticar")
+                .baseUrl("http://localhost:9000/api")
                 .build();
     }
 
     public String logar(UserRequestDTO user) {
         return restClient.post()
-                .uri("/logar")
+                .uri("/autenticar/logar")
                 .body(user)
                 .retrieve()
                 .body(String.class);
@@ -45,7 +45,7 @@ public class AuthRestClientService {
         user.setRole("FORNECEDOR");
 
         restClient.post()
-                .uri("/registrar")
+                .uri("/autenticar/registrar")
                 .body(user)
                 .retrieve()
                 .body(String.class);
@@ -77,13 +77,13 @@ public void criarLance(Long id, LanceDTO lance, String token) {
             .retrieve()
             .toBodilessEntity();
 }
-    public List<EditalDTO> adicionarEdital(){
-        EditalDTO[] adicionar=restClient.put()
-                .uri("/{id}/lances")
-                .body(this)
-                .retrieve()
-                .body(EditalDTO[].class);
-        return Arrays.asList(adicionar);
-    }
+public EditalDTO atualizarEdital(Long id, EditalDTO edital, String token) {
+    return restClient.put()
+            .uri("/editais/{id}", id)
+            .header("Authorization", "Bearer " + token)
+            .body(edital)
+            .retrieve()
+            .body(EditalDTO.class);
+}
     
 }
