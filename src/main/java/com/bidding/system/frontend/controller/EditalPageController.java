@@ -55,10 +55,6 @@ public class EditalPageController {
 
 @PostMapping("/criar")
 public String criar(@ModelAttribute EditalDTO edital, HttpSession session) {
-         System.out.println("Titulo: " + edital.getTitulo());
-    System.out.println("Descricao: " + edital.getDescricao());
-    System.out.println("Data: " + edital.getDataFechamento());
-    System.out.println("Status: " + edital.getStatus());
 
         String token = (String) session.getAttribute("token");
 
